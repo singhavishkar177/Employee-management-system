@@ -1,7 +1,9 @@
 package com.example.Employeemanagementsystem.controller;
 
 import com.example.Employeemanagementsystem.payload.EmpDto;
+import com.example.Employeemanagementsystem.payload.EmpResponse;
 import com.example.Employeemanagementsystem.service.EmpService;
+import com.example.Employeemanagementsystem.utils.AppConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +22,12 @@ public class EmpController {
     }
 
     @GetMapping
-    public ResponseEntity<List<EmpDto>> getAllEmployees(){
-        List<EmpDto> empDtoList = service.getAllEmployees();
+    public ResponseEntity<EmpResponse> getAllEmployees(
+            @RequestParam(value = "pageNo",defaultValue = AppConstants.DEFAULT_PAGE_NUMBER,required = false) int pageNo,
+            @RequestParam(value = "pageSize",defaultValue = AppConstants.DEFAULT_PAGE_SIZE,required = false) int pageSize,
+            @RequestParam(value = "sortBy",defaultValue = AppConstants.DEFAULT_SORT_BY,required = false) String sortBy,
+            @RequestParam(value="sortDir",defaultValue = AppConstants.DEFAULT_SORT_DIRECTION,required = false)String sortDir){
+        EmpResponse empDtoList = service.getAllEmployees(pageNo,pageSize,sortBy,sortDir);
         return ResponseEntity.ok(empDtoList);
     }
     @GetMapping("/{id}")
