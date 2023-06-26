@@ -3,9 +3,14 @@ package com.example.Employeemanagementsystem.service.impl;
 import com.example.Employeemanagementsystem.Model.Employee;
 import com.example.Employeemanagementsystem.exception.ResourceNotFoundException;
 import com.example.Employeemanagementsystem.payload.EmpDto;
+import com.example.Employeemanagementsystem.payload.EmpResponse;
 import com.example.Employeemanagementsystem.repository.EmpRepository;
 import com.example.Employeemanagementsystem.service.EmpService;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,10 +27,22 @@ public class EmpServiceImpl implements EmpService {
     }
 
     @Override
-    public List<EmpDto> getAllEmployees() {
-        List<Employee> empList = repository.findAll();
-        List<EmpDto> empDtoList = empList.stream().map(obj -> mapToDto(obj)).collect(Collectors.toList());
-        return empDtoList;
+    public EmpResponse getAllEmployees(int pageNo,int pageSize,String sortBy,String sortDir) {
+
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                 : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo,pageSize, sort);
+        Page<Employee> empList = repository.findAll(pageable);
+        List<Employee> empDtoList = empList.getContent();
+        List<EmpDto> content =  empDtoList.stream().map(obj -> mapToDto(obj)).collect(Collectors.toList());
+        EmpResponse empResponse = new EmpResponse();
+        empResponse.setContent(content);
+        empResponse.setPageNo(empList.getNumber());
+        empResponse.setPageSize(empList.getSize());
+        empResponse.setTotalElements(empList.getTotalElements());
+        empResponse.setTotalPages(empList.getTotalPages());
+        empResponse.setLast(empList.isLast());
+        return empResponse;
     }
 
     @Override
