@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,4 +24,7 @@ public class Employee{
     private String title;
     @Column(name = "project",nullable = false)
     private String project;
+
+    @OneToMany(mappedBy = "employee",cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<Address> address = new HashSet<>();
 }
