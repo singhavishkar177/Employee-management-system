@@ -4,6 +4,7 @@ import com.example.Employeemanagementsystem.payload.EmpDto;
 import com.example.Employeemanagementsystem.payload.EmpResponse;
 import com.example.Employeemanagementsystem.service.EmpService;
 import com.example.Employeemanagementsystem.utils.AppConstants;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,12 +37,12 @@ public class EmpController {
         return ResponseEntity.ok(empDto);
     }
     @PostMapping
-    public ResponseEntity<EmpDto> createEmp(@RequestBody EmpDto empDto){
+    public ResponseEntity<EmpDto> createEmp(@Valid @RequestBody EmpDto empDto){
         EmpDto empResponse = service.createEmployee(empDto);
         return new ResponseEntity<EmpDto>(empResponse, HttpStatus.CREATED);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<EmpDto> updateEmp(@RequestBody EmpDto empDto,@PathVariable("id") int newId){
+    public ResponseEntity<EmpDto> updateEmp(@Valid @RequestBody EmpDto empDto,@PathVariable("id") int newId){
         EmpDto empResponse = service.updateEmployee(empDto,newId);
         return ResponseEntity.ok(empResponse);
     }
