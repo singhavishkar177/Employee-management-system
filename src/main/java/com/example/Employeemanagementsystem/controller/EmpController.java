@@ -43,6 +43,7 @@ public class EmpController {
         EmpDto empResponse = service.createEmployee(empDto);
         return new ResponseEntity<EmpDto>(empResponse, HttpStatus.CREATED);
     }
+    //g
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<EmpDto> updateEmp(@Valid @RequestBody EmpDto empDto,@PathVariable("id") int newId){
