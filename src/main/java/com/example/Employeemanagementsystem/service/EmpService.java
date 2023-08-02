@@ -11,4 +11,5 @@ public interface EmpService {
     EmpDto createEmployee(EmpDto empDto);
     EmpDto updateEmployee(EmpDto empDto,int id);
     void deleteEmployee(int id);
+    List<EmpDto> getAllEmpByOrgId(int orgId);
 }

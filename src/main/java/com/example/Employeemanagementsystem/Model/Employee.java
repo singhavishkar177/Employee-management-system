@@ -27,4 +27,8 @@ public class Employee{
 
     @OneToMany(mappedBy = "employee",cascade = CascadeType.ALL,orphanRemoval = true)
     private Set<Address> address = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organization_id",nullable = false)
+    private Organization organization;
 }

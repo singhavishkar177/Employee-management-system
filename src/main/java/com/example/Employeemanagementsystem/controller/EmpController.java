@@ -56,4 +56,9 @@ public class EmpController {
     service.deleteEmployee(newId);
         return ResponseEntity.ok().body("employee deleted successfully");
     }
+    @GetMapping("/organization/{orgId}")
+    public ResponseEntity<List<EmpDto>> getAllEmpByOrgId(@PathVariable("orgId") int orgId){
+        List<EmpDto> list = service.getAllEmpByOrgId(orgId);
+        return ResponseEntity.ok(list);
+    }
 }
