@@ -2,6 +2,7 @@ package com.example.Employeemanagementsystem.controller;
 
 import com.example.Employeemanagementsystem.payload.OrgDto;
 import com.example.Employeemanagementsystem.service.OrgService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,10 @@ public class OrgController {
         this.orgService = orgService;
     }
     //build add orgranization rest api
-    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(
+            name = "Bear Authentication"
+    )
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<OrgDto> createOrganization(@RequestBody OrgDto orgDto){
             OrgDto orgResponse = orgService.createOrganization(orgDto);
@@ -35,13 +39,19 @@ public class OrgController {
         List<OrgDto> list = orgService.getAllOrganization();
         return ResponseEntity.ok(list);
     }
-    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(
+            name = "Bear Authentication"
+    )
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<OrgDto> updateOrganization(@RequestBody OrgDto orgDto,@PathVariable(name="id") int id){
         OrgDto orgResponse = orgService.updateOrganization(orgDto,id);
         return ResponseEntity.ok(orgResponse);
     }
-    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(
+            name = "Bear Authentication"
+    )
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteOrganization(@PathVariable(name="id") int id){
         orgService.deleteOrganization(id);
